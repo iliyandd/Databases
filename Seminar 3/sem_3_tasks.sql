@@ -67,9 +67,58 @@ where color = 'y'));
 
 
 -- 2.5
---select maker
---from product
---where model in (
---select model
---from pc
---where);
+use pc;
+select maker
+from product
+where product.model in (
+	(select pc.model
+	from pc
+	where ram <= all(
+		select ram
+		from pc))
+	union
+	(select pc.model
+	from pc
+	where speed >= all(
+		select speed
+		from pc)));
+
+
+-- 3.1
+use ships;
+select c1.country
+from classes c1
+where c1.numguns >= all(
+	select c2.numguns
+	from classes c2);
+
+
+-- 3.2
+select name
+from ships
+where class in (
+	select class
+	from classes
+	where bore = 16);
+
+
+-- 3.3
+select battle
+from outcomes
+where ship in (
+	select name
+	from ships
+	where ships.class in (
+		select class
+		from classes
+		where class = 'Kongo'));
+
+
+-- 3.4
+select name from ships
+where ships.class in (
+	select class
+	from classes c1
+	where c1.numguns >= all(
+		select c2.numguns
+		from classes c2));

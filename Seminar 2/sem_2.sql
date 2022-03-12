@@ -46,6 +46,8 @@ where networth > 10000000);
 
 
 use ships;
-select dictinct battle
+select distinct battle
 from outcomes
 where result = 'sunk';
+
+
