@@ -40,6 +40,24 @@ where name is null or classes.class not in (select class
 
 use movies;
 
+-- Заявка, която за всяка актриса извежда име и брой на студията, за които е играла,
+-- ако е участвала в по-малко от 6 филма.
+-- За актрисите, които не са участвали в нито един филм да се изведе 0 като брой на студията.
+
+--select name, count(studioname)
+--from moviestar
+--join starsin on starname = name
+--join movie on movietitle = title and movieyear = year
+--where gender = 'F'
+--group by name;
+--having (select count(title)
+--		from starsin s2
+--		join movie on s2.movietitle = title and s2.movieyear = year
+--		where starname = name) < 6;
+
+
+
+
 --Всички филми, чието заглавие съдържа едновременно думите 'Star' и 'Trek' (не
 --непременно в този ред). Резултатите да се подредят по година (първо най-новите
 --филми), а филмите от една и съща година - по азбучен ред
@@ -82,4 +100,5 @@ where price < all (select price
 					from printer
 					join product p2 on printer.model = p2.model
 					where p1.maker = p2.maker);
+
 
