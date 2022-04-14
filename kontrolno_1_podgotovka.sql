@@ -53,8 +53,35 @@ where gender = 'M' and birthdate >= all(select birthdate
 									   where gender = 'M');
 
 
---Напишете заявка, която извежда име на актьор и име на студио за тези
---актьори, участвали в най-много филми на това студио.
+use ships;
 
--- ?
+--Напишете заявка, която извежда имената на всички кораби без повторения,
+--които са участвали в поне една битка и чиито имена започват с C или K.
 
+select distinct ship
+from outcomes
+where ship like 'C%' or ship like 'K%';
+
+
+--Напишете заявка, която извежда име и държава на всички кораби, които
+--никога не са потъвали в битка (може и да не са участвали).
+
+select name, country
+from ships
+join classes on ships.class = classes.class
+join outcomes on name = ship
+where name not in (select ship
+				   from outcomes) or name not in (select ship
+												  from outcomes
+												  where result like 'sunk');
+
+
+--Напишете заявка, която извежда държавата и броя на потъналите кораби за
+--тази държава. Държави, които нямат кораби или имат кораб, но той не е
+--участвал в битка, също да бъдат изведени.
+
+select country, count(ship)
+from classes
+left join ships on ships.class = classes.class
+left join outcomes on ship = name and result = 'sunk'
+group by country;
